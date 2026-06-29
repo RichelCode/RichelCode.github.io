@@ -27,6 +27,8 @@ export interface ArticleRef {
   title: string;
   href: string;
   date?: string;
+  /** Cover image. Auto-pulled from the Medium post; or set manually for featured ones. */
+  image?: string;
 }
 
 export const featuredArticles: ArticleRef[] = [

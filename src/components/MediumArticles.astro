@@ -3,11 +3,22 @@ import Icon from "./Icon.astro";
 import { socials } from "../data/site";
 import { featuredArticles, type ArticleRef } from "../data/content";
 
-/* Pull recent Medium articles from RSS at build time, with graceful fallback. */
+/* Pull recent Medium articles from RSS at build time (title, date, link, and
+   the post's cover image), with a graceful fallback. */
 interface Props {
   limit?: number;
 }
 const { limit = 4 } = Astro.props;
+
+const decode = (s: string) =>
+  s
+    .replace(/&amp;/g, "&")
+    .replace(/&#38;/g, "&")
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
 
 let articles: ArticleRef[] = [...featuredArticles];
 try {
@@ -19,13 +30,23 @@ try {
     const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, limit);
     const fromFeed = items.map((m) => {
       const block = m[1];
-      const title = block.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? "Untitled";
+      const title =
+        block.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? "Untitled";
       const link = block.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.split("?")[0] ?? socials.medium;
       const pub = block.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1];
+
+      // First real Medium image inside the post body (skip the tracking pixel).
+      const encoded = block.match(/<content:encoded>([\s\S]*?)<\/content:encoded>/)?.[1] ?? "";
+      const imgs = [...encoded.matchAll(/<img[^>]+src="([^"]+)"/g)].map((x) => x[1]);
+      const image = imgs.find((src) =>
+        /(cdn-images-\d+\.medium\.com|miro\.medium\.com)/.test(src)
+      );
+
       return {
-        title: title.trim(),
+        title: decode(title.trim()),
         href: link.trim(),
         date: pub ? new Date(pub).toISOString().slice(0, 10) : undefined,
+        image,
       };
     });
     if (fromFeed.length) articles = fromFeed;
@@ -35,27 +56,53 @@ try {
 }
 
 const fmt = (iso?: string) =>
-  iso ? new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
+  iso
+    ? new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    : "";
 ---
 
 {
   articles.length > 0 ? (
-    <div class="grid gap-4 sm:grid-cols-2">
+    <div class="grid gap-5 sm:grid-cols-2">
       {articles.map((a, i) => (
         <a
           href={a.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="reveal card card-hover group flex items-center justify-between gap-4 p-6"
+          class="reveal card card-hover group flex flex-col overflow-hidden"
           data-delay={`${(i % 2) * 80}`}
         >
-          <div>
+          {/* Cover image (real article image, or a branded fallback tile) */}
+          <div class="relative aspect-[16/9] overflow-hidden border-b border-border bg-sky-soft">
+            {a.image ? (
+              <img
+                src={a.image}
+                alt={a.title}
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                onerror="this.closest('a').querySelector('.ml-fallback').classList.remove('hidden'); this.remove();"
+              />
+            ) : null}
+            {/* Branded fallback (shown when there's no image, or if it fails to load) */}
+            <div class={`ml-fallback absolute inset-0 grid place-items-center ${a.image ? "hidden" : ""}`}>
+              <div class="absolute inset-0 opacity-50" style="background-image: radial-gradient(#9FC7EC 1.4px, transparent 1.4px); background-size: 18px 18px;" />
+              <span class="relative grid h-14 w-14 place-items-center rounded-2xl bg-navy text-white">
+                <Icon name="medium" class="h-7 w-7" />
+              </span>
+            </div>
+            <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.62rem] uppercase tracking-wider text-navy backdrop-blur">
+              <Icon name="medium" class="h-3.5 w-3.5" /> Medium
+            </span>
+          </div>
+
+          <div class="flex flex-1 flex-col p-6">
             {a.date && <time class="font-mono text-xs text-muted">{fmt(a.date)}</time>}
             <h4 class="mt-1 font-display text-lg font-semibold leading-snug text-navy">{a.title}</h4>
+            <span class="link-arrow mt-3 text-sm">
+              Read on Medium <Icon name="arrowUpRight" class="h-4 w-4" />
+            </span>
           </div>
-          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted transition-all group-hover:border-blue group-hover:text-blue">
-            <Icon name="arrowUpRight" class="h-4 w-4" />
-          </span>
         </a>
       ))}
     </div>
