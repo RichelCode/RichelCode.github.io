@@ -1,0 +1,86 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+import Icon from "./Icon.astro";
+
+const rooms = [
+  {
+    title: "Work with me on a project",
+    body: "Hire me to build AI/ML solutions, RAG systems, forecasting, or data science work for your business or research.",
+    href: "/work",
+    icon: "briefcase",
+    cta: "See what I offer",
+    accent: "navy",
+  },
+  {
+    title: "Learn from my content",
+    body: "Watch my YouTube videos breaking down Python, machine learning, and data science in plain English.",
+    href: "/videos",
+    icon: "play",
+    cta: "Watch videos",
+    accent: "blue",
+  },
+  {
+    title: "Read my writing",
+    body: "Essays and tutorials on AI/ML, statistics, and building in public — on the blog and on Medium.",
+    href: "/writing",
+    icon: "pen",
+    cta: "Read the blog",
+    accent: "blue",
+  },
+  {
+    title: "See what I'm building",
+    body: "Explore my featured projects, and peek at the products I'm working on for learners and teams.",
+    href: "/projects",
+    icon: "rocket",
+    cta: "Explore projects",
+    accent: "navy",
+  },
+];
+---
+
+<section class="section">
+  <div class="container-page">
+    <SectionTitle
+      eyebrow="welcome in!"
+      title="How can I help you?"
+      underline="help"
+      align="center"
+      color="sky"
+    >
+      <p class="mx-auto mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted">
+        Think of this as my little corner of the internet. Here are the rooms —
+        pick the one that fits where you are right now.
+      </p>
+    </SectionTitle>
+
+    <div class="mt-14 grid gap-5 sm:grid-cols-2">
+      {
+        rooms.map((r, i) => (
+          <a
+            href={r.href}
+            class="reveal card card-hover group flex flex-col p-7 sm:p-8"
+            data-delay={`${(i % 2) * 90}`}
+          >
+            <div class="flex items-center gap-4">
+              <span
+                class={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl transition-transform duration-300 group-hover:-rotate-6 ${
+                  r.accent === "navy" ? "bg-navy text-white" : "bg-sky-soft text-blue"
+                }`}
+              >
+                <Icon name={r.icon} class="h-7 w-7" />
+              </span>
+              <h3 class="font-display text-xl font-semibold text-navy sm:text-2xl">
+                {r.title}
+              </h3>
+            </div>
+            <p class="mt-4 flex-1 leading-relaxed text-muted">{r.body}</p>
+            <span class="link-arrow mt-5">
+              {r.cta}
+              <Icon name="arrowRight" class="h-4 w-4" />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

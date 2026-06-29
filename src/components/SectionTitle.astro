@@ -1,0 +1,46 @@
+---
+import HandUnderline from "./HandUnderline.astro";
+
+/* Section title with the signature hand-drawn underline under one word.
+   Props:
+     eyebrow      — small handwritten kicker above the title
+     title        — full title; the word(s) in `underline` get the squiggle
+     underline    — substring of `title` to underline (defaults to last word)
+     align        — "left" | "center"
+     color        — underline color
+     variant      — squiggle shape 0|1|2 */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  underline?: string;
+  align?: "left" | "center";
+  color?: string;
+  variant?: 0 | 1 | 2;
+}
+const {
+  eyebrow,
+  title,
+  underline,
+  align = "left",
+  color = "sky",
+  variant = 0,
+} = Astro.props;
+
+const target = underline ?? title.trim().split(" ").slice(-1)[0];
+const idx = title.lastIndexOf(target);
+const before = idx >= 0 ? title.slice(0, idx) : title;
+const after = idx >= 0 ? title.slice(idx + target.length) : "";
+---
+
+<div class={`reveal ${align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}`}>
+  {eyebrow && <span class={`eyebrow ${align === "center" ? "justify-center" : ""}`}>{eyebrow}</span>}
+  <h2 class="mt-2 text-3xl font-semibold leading-[1.1] sm:text-4xl md:text-[2.7rem]">
+    {before}
+    <span class="relative inline-block whitespace-nowrap">
+      {target}
+      <HandUnderline class="absolute -bottom-2 left-0 h-4 w-full" color={color} variant={variant} width={6} />
+    </span>
+    {after}
+  </h2>
+  <slot />
+</div>

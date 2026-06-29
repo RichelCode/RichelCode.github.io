@@ -1,0 +1,71 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HandUnderline from "../components/HandUnderline.astro";
+import MailerLiteForm from "../components/MailerLiteForm.astro";
+import Icon from "../components/Icon.astro";
+import { products } from "../data/products";
+---
+
+<Layout title="Products" description="Future products from Richel — courses, templates, and cohorts for learning AI/ML. Register your interest to help shape what gets built.">
+  <section class="pt-32 pb-10 sm:pt-40">
+    <div class="container-page text-center">
+      <span class="reveal eyebrow justify-center">coming soon</span>
+      <h1 class="reveal mx-auto mt-2 max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl" data-delay="40">
+        Things I'm
+        <span class="relative inline-block whitespace-nowrap text-blue">
+          building
+          <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="sky" width={7} />
+        </span>
+        for you
+      </h1>
+      <p class="reveal mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted" data-delay="100">
+        I'm creating courses, templates, and cohorts to make learning AI/ML
+        easier. None of these are out yet — so tell me which ones you'd want, and
+        you'll be first to know when they launch. Your interest literally shapes
+        what I build next.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-8">
+    <div class="container-page">
+      <div class="grid gap-7 lg:grid-cols-3">
+        {products.map((p, i) => (
+          <article class="reveal card flex flex-col p-7 sm:p-8" data-delay={`${(i % 3) * 90}`}>
+            <div class="flex items-center justify-between">
+              <span class="grid h-14 w-14 place-items-center rounded-2xl bg-navy text-white">
+                <Icon name={p.icon} class="h-7 w-7" />
+              </span>
+              <span class="rounded-full bg-sky-soft px-3 py-1 font-mono text-[0.66rem] uppercase tracking-wider text-blue">
+                {p.status}
+              </span>
+            </div>
+
+            <p class="mt-5 font-hand text-xl text-blue">{p.kind}</p>
+            <h2 class="font-display text-2xl font-semibold text-navy">{p.name}</h2>
+            <p class="mt-3 leading-relaxed text-muted">{p.blurb}</p>
+
+            <ul class="mt-5 space-y-2">
+              {p.highlights.map((h) => (
+                <li class="flex items-center gap-2.5 text-sm text-muted">
+                  <Icon name="check" class="h-4 w-4 shrink-0 text-blue" />
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-auto pt-7">
+              <p class="mb-3 text-sm font-semibold text-navy">Want this? Register your interest:</p>
+              <!-- Each card posts to MailerLite with its own `group` so you can see demand per product -->
+              <MailerLiteForm group={p.group} buttonLabel="Notify me" compact placeholder="Your email" />
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="reveal mx-auto mt-12 max-w-xl text-center text-sm text-muted" data-delay="120">
+        Have an idea for something you wish existed? <a href="/contact" class="font-semibold text-blue link-arrow">Tell me about it</a>.
+      </p>
+    </div>
+  </section>
+</Layout>

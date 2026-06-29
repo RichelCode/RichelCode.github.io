@@ -1,0 +1,42 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HandUnderline from "../components/HandUnderline.astro";
+import VideoGrid from "../components/VideoGrid.astro";
+import NewsletterCTA from "../components/NewsletterCTA.astro";
+import Icon from "../components/Icon.astro";
+import { socials } from "../data/site";
+---
+
+<Layout title="Videos" description="Richel's YouTube videos — Python, machine learning, and data science explained in plain English.">
+  <section class="pt-32 pb-10 sm:pt-40">
+    <div class="container-page">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div>
+          <span class="reveal eyebrow">learn with me</span>
+          <h1 class="reveal mt-2 max-w-2xl text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl" data-delay="40">
+            On
+            <span class="relative inline-block whitespace-nowrap text-blue">
+              YouTube
+              <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="sky" width={7} />
+            </span>
+          </h1>
+          <p class="reveal mt-6 max-w-xl text-lg leading-relaxed text-muted" data-delay="100">
+            I break down Python, machine learning, and data science in plain
+            English. Pick a video to watch it right here, no leaving the page.
+          </p>
+        </div>
+        <a href={socials.youtube} target="_blank" rel="noopener noreferrer" class="reveal btn btn-primary shrink-0" data-delay="140">
+          <Icon name="youtube" class="h-4 w-4" /> Subscribe
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-8">
+    <div class="container-page">
+      <VideoGrid limit={6} />
+    </div>
+  </section>
+
+  <NewsletterCTA group="newsletter" />
+</Layout>

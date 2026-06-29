@@ -1,0 +1,43 @@
+---
+/* A tinted "island" section with soft curved top & bottom edges, so it floats
+   on the cream page with a friendly flow. The curves are the PAGE color (cream)
+   pouring over the band's edges.
+     color    — band background: "cream-deep" | "navy" | "sky-soft" | CSS color
+     edge     — the surrounding page color the curves are drawn in (default cream) */
+interface Props {
+  color?: string;
+  edge?: string;
+  class?: string;
+}
+const { color = "cream-deep", edge = "cream", class: className = "" } = Astro.props;
+
+const fills: Record<string, string> = {
+  cream: "#FBF8F2",
+  "cream-deep": "#F4EEE2",
+  navy: "#0C2A4A",
+  "sky-soft": "#EAF2FB",
+  white: "#FFFFFF",
+};
+const bandColor = fills[color] ?? color;
+const edgeColor = fills[edge] ?? edge;
+---
+
+<section class={`relative ${className}`} style={`background:${bandColor}`}>
+  <!-- top edge: page color curving down into the band -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 leading-[0]" aria-hidden="true">
+    <svg class="block h-[40px] w-full sm:h-[64px]" viewBox="0 0 1440 64" preserveAspectRatio="none" fill={edgeColor}>
+      <path d="M0 0H1440V20C1200 52 960 60 720 44 480 28 240 20 0 36V0Z" />
+    </svg>
+  </div>
+
+  <div class="relative">
+    <slot />
+  </div>
+
+  <!-- bottom edge: page color curving up under the band -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 leading-[0]" aria-hidden="true">
+    <svg class="block h-[40px] w-full sm:h-[64px]" viewBox="0 0 1440 64" preserveAspectRatio="none" fill={edgeColor}>
+      <path d="M0 64H1440V44C1200 12 960 4 720 20 480 36 240 44 0 28V64Z" />
+    </svg>
+  </div>
+</section>

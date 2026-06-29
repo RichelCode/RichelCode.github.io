@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import HandUnderline from "../../components/HandUnderline.astro";
+import MediumArticles from "../../components/MediumArticles.astro";
+import NewsletterCTA from "../../components/NewsletterCTA.astro";
+import Band from "../../components/Band.astro";
+import Icon from "../../components/Icon.astro";
+import { socials } from "../../data/site";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const [featured, ...rest] = posts;
+---
+
+<Layout title="Writing" description="Essays and tutorials on AI/ML, statistics, and building in public — by Richel Attafuah.">
+  <section class="pt-32 pb-10 sm:pt-40">
+    <div class="container-page">
+      <span class="reveal eyebrow">from my desk</span>
+      <h1 class="reveal mt-2 max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl" data-delay="40">
+        Writing &
+        <span class="relative inline-block whitespace-nowrap text-blue">
+          ideas
+          <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="sky" width={7} />
+        </span>
+      </h1>
+      <p class="reveal mt-6 max-w-xl text-lg leading-relaxed text-muted" data-delay="100">
+        Lessons from the work — forecasting, RAG, statistics, and the craft of
+        making complex things simple.
+      </p>
+    </div>
+  </section>
+
+  <section class="pb-4">
+    <div class="container-page">
+      {posts.length === 0 ? (
+        <p class="text-muted">No posts yet — check back soon.</p>
+      ) : (
+        <>
+          <a href={`/writing/${featured.id}/`} class="reveal card card-hover group grid gap-6 overflow-hidden p-7 sm:p-9 lg:grid-cols-[1.2fr_1fr]">
+            <div class="flex flex-col justify-center">
+              <div class="flex items-center gap-3 text-xs text-muted">
+                <span class="rounded-full bg-sky-soft px-2.5 py-1 font-mono uppercase tracking-wider text-blue">Latest</span>
+                <time datetime={featured.data.pubDate.toISOString()}>{fmt(featured.data.pubDate)}</time>
+              </div>
+              <h2 class="mt-4 font-display text-2xl font-semibold leading-tight text-navy sm:text-3xl">{featured.data.title}</h2>
+              <p class="mt-3 text-pretty leading-relaxed text-muted">{featured.data.description}</p>
+              <span class="link-arrow mt-5 text-sm">Read post <Icon name="arrowRight" class="h-4 w-4" /></span>
+            </div>
+            <div class="relative hidden overflow-hidden rounded-2xl border border-border bg-sky-soft lg:block">
+              <div class="absolute inset-0 opacity-60" style="background-image: radial-gradient(#9FC7EC 1.4px, transparent 1.4px); background-size: 20px 20px;"></div>
+              <div class="absolute inset-0 grid place-items-center"><span class="font-display text-7xl text-blue/40">R.</span></div>
+            </div>
+          </a>
+
+          {rest.length > 0 && (
+            <div class="mt-7 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {rest.map((post, i) => (
+                <a href={`/writing/${post.id}/`} class="reveal card card-hover group flex flex-col p-6" data-delay={`${(i % 3) * 80}`}>
+                  <time class="font-mono text-xs text-muted" datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+                  <h3 class="mt-3 font-display text-xl font-semibold leading-snug text-navy">{post.data.title}</h3>
+                  <p class="mt-2 flex-1 text-sm leading-relaxed text-muted">{post.data.description}</p>
+                  <div class="mt-4 flex flex-wrap gap-2">{post.data.tags.slice(0, 3).map((t) => <span class="chip">#{t}</span>)}</div>
+                </a>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+
+  <!-- Medium -->
+  <Band color="cream-deep">
+    <section class="section">
+      <div class="container-page">
+        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <h2 class="reveal font-display text-2xl font-semibold text-navy sm:text-3xl">Also on Medium</h2>
+          <a href={socials.medium} target="_blank" rel="noopener noreferrer" class="reveal link-arrow" data-delay="100">
+            View my Medium <Icon name="arrowUpRight" class="h-4 w-4" />
+          </a>
+        </div>
+        <div class="mt-8"><MediumArticles limit={4} /></div>
+      </div>
+    </section>
+  </Band>
+
+  <NewsletterCTA group="newsletter" />
+</Layout>

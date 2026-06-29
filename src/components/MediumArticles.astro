@@ -1,0 +1,76 @@
+---
+import Icon from "./Icon.astro";
+import { socials } from "../data/site";
+import { featuredArticles, type ArticleRef } from "../data/content";
+
+/* Pull recent Medium articles from RSS at build time, with graceful fallback. */
+interface Props {
+  limit?: number;
+}
+const { limit = 4 } = Astro.props;
+
+let articles: ArticleRef[] = [...featuredArticles];
+try {
+  const res = await fetch("https://medium.com/feed/@richelattafuah", {
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; AstroBuild)" },
+  });
+  if (res.ok) {
+    const xml = await res.text();
+    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, limit);
+    const fromFeed = items.map((m) => {
+      const block = m[1];
+      const title = block.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? "Untitled";
+      const link = block.match(/<link>([\s\S]*?)<\/link>/)?.[1]?.split("?")[0] ?? socials.medium;
+      const pub = block.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1];
+      return {
+        title: title.trim(),
+        href: link.trim(),
+        date: pub ? new Date(pub).toISOString().slice(0, 10) : undefined,
+      };
+    });
+    if (fromFeed.length) articles = fromFeed;
+  }
+} catch {
+  /* keep fallback */
+}
+
+const fmt = (iso?: string) =>
+  iso ? new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
+---
+
+{
+  articles.length > 0 ? (
+    <div class="grid gap-4 sm:grid-cols-2">
+      {articles.map((a, i) => (
+        <a
+          href={a.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="reveal card card-hover group flex items-center justify-between gap-4 p-6"
+          data-delay={`${(i % 2) * 80}`}
+        >
+          <div>
+            {a.date && <time class="font-mono text-xs text-muted">{fmt(a.date)}</time>}
+            <h4 class="mt-1 font-display text-lg font-semibold leading-snug text-navy">{a.title}</h4>
+          </div>
+          <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-muted transition-all group-hover:border-blue group-hover:text-blue">
+            <Icon name="arrowUpRight" class="h-4 w-4" />
+          </span>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <a
+      href={socials.medium}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="reveal card card-hover flex items-center justify-between gap-4 p-6"
+    >
+      <div>
+        <p class="font-display text-lg font-semibold text-navy">Read my writing on Medium</p>
+        <p class="mt-1 text-sm text-muted">New articles appear here automatically once published.</p>
+      </div>
+      <Icon name="medium" class="h-6 w-6 text-blue" />
+    </a>
+  )
+}

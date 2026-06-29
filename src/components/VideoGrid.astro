@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+import { socials } from "../data/site";
+import { videos } from "../data/content";
+
+interface Props {
+  limit?: number;
+}
+const { limit = 6 } = Astro.props;
+
+const live = videos.filter((v) => v.id.trim().length > 0).slice(0, limit);
+const hasVideos = live.length > 0;
+const placeholderCount = Math.min(limit, 3);
+---
+
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    hasVideos
+      ? live.map((v, i) => (
+          <div
+            class="reveal yt-facade card card-hover group relative aspect-video cursor-pointer overflow-hidden"
+            data-id={v.id}
+            data-delay={`${(i % 3) * 80}`}
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+              alt={v.title}
+              loading="lazy"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/10 to-transparent" />
+            <span class="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-navy shadow-lg transition-transform duration-300 group-hover:scale-110">
+              <Icon name="play" class="h-6 w-6" />
+            </span>
+            <p class="absolute inset-x-0 bottom-0 p-4 text-sm font-medium text-white">{v.title}</p>
+          </div>
+        ))
+      : Array.from({ length: placeholderCount }).map((_, i) => (
+          <a
+            href={socials.youtube}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="reveal card card-hover group relative grid aspect-video place-items-center overflow-hidden"
+            data-delay={`${i * 80}`}
+          >
+            <div class="absolute inset-0 opacity-50" style="background-image: radial-gradient(#9FC7EC 1.4px, transparent 1.4px); background-size: 20px 20px;" />
+            <div class="relative flex flex-col items-center gap-3">
+              <span class="grid h-14 w-14 place-items-center rounded-full bg-[#FF0000] text-white">
+                <Icon name="youtube" class="h-7 w-7" />
+              </span>
+              <span class="font-hand text-xl text-blue">add a video id</span>
+            </div>
+          </a>
+        ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".yt-facade").forEach((el) => {
+    el.addEventListener("click", () => {
+      const id = el.getAttribute("data-id");
+      if (!id) return;
+      const iframe = document.createElement("iframe");
+      iframe.className = "absolute inset-0 h-full w-full";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      el.replaceChildren(iframe);
+      el.classList.remove("cursor-pointer");
+    });
+  });
+</script>

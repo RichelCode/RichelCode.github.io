@@ -1,0 +1,145 @@
+---
+import Icon from "./Icon.astro";
+import { MAILERLITE_SUBSCRIBE_ACTION } from "../data/site";
+
+/* ════════════════════════════════════════════════════════════════════════
+   MailerLiteForm — clean, on-brand subscribe form.
+   Submits to your MailerLite subscribe action via JSONP (works cross-origin,
+   no page reload, no MailerLite grey styling). Used for the newsletter and for
+   product-interest capture.
+
+   Props:
+     group       — identifier sent as fields[interest] so you can tell which
+                   form/product a subscriber came from (newsletter, course, ...)
+     buttonLabel — CTA text
+     withName    — also collect a first name
+     compact     — tighter layout
+   NOTE: for the `interest` value to be saved, create a custom field named
+   "interest" in MailerLite (Subscribers → Fields). The email itself always works.
+   ════════════════════════════════════════════════════════════════════════ */
+interface Props {
+  group?: string;
+  buttonLabel?: string;
+  withName?: boolean;
+  compact?: boolean;
+  placeholder?: string;
+}
+const {
+  group = "newsletter",
+  buttonLabel = "Subscribe",
+  withName = false,
+  compact = false,
+  placeholder = "you@example.com",
+} = Astro.props;
+---
+
+<form
+  class="ml-form flex flex-col gap-3"
+  data-action={MAILERLITE_SUBSCRIBE_ACTION}
+  data-group={group}
+>
+  <div class={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
+    {
+      withName && (
+        <input
+          type="text"
+          name="name"
+          placeholder="First name"
+          class="w-full rounded-full border border-border bg-cream px-5 py-3 text-sm outline-none transition-colors focus:border-blue"
+        />
+      )
+    }
+    <input
+      type="email"
+      name="email"
+      required
+      placeholder={placeholder}
+      class="w-full flex-1 rounded-full border border-border bg-cream px-5 py-3 text-sm outline-none transition-colors focus:border-blue"
+    />
+    <button type="submit" class="btn btn-primary shrink-0 whitespace-nowrap">
+      <span class="ml-label">{buttonLabel}</span>
+      <Icon name="arrowRight" class="h-4 w-4" />
+    </button>
+  </div>
+  <p class="ml-status hidden text-sm" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  // JSONP submit to MailerLite — one handler for every .ml-form on the page.
+  document.querySelectorAll<HTMLFormElement>(".ml-form").forEach((form) => {
+    const status = form.querySelector(".ml-status") as HTMLElement;
+    const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
+    const label = form.querySelector(".ml-label") as HTMLElement;
+    const action = form.dataset.action!;
+    const group = form.dataset.group ?? "newsletter";
+
+    const show = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.className = `ml-status text-sm ${ok ? "text-blue" : "text-gold"}`;
+      status.classList.remove("hidden");
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = (form.querySelector("input[name=email]") as HTMLInputElement)?.value;
+      const name = (form.querySelector("input[name=name]") as HTMLInputElement)?.value ?? "";
+      if (!email) return;
+
+      const original = label?.textContent ?? "Subscribe";
+      btn.disabled = true;
+      btn.style.opacity = "0.6";
+      if (label) label.textContent = "Sending…";
+
+      // Build a JSONP request with a unique callback name.
+      const cb = "ml_cb_" + Math.random().toString(36).slice(2);
+      const params = new URLSearchParams();
+      params.set("fields[email]", email);
+      if (name) params.set("fields[name]", name);
+      params.set("fields[interest]", group);
+      params.set("ml-submit", "1");
+      params.set("callback", cb);
+      params.set("_", String(Date.now()));
+
+      const script = document.createElement("script");
+      let done = false;
+      const cleanup = () => {
+        delete (window as any)[cb];
+        script.remove();
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        if (label) label.textContent = original;
+      };
+
+      (window as any)[cb] = (res: any) => {
+        done = true;
+        cleanup();
+        if (res && (res.success || res.id || res.ID)) {
+          form.reset();
+          show("You're in! 🎉 Thanks — I'll be in touch.", true);
+        } else {
+          show("Hmm, that didn't go through. Please try again or email me.", false);
+        }
+      };
+
+      script.onerror = () => {
+        if (!done) {
+          cleanup();
+          // JSONP can be blocked; treat optimistically but honestly.
+          show("Could not reach the server — please try again in a moment.", false);
+        }
+      };
+
+      script.src = `${action}?${params.toString()}`;
+      document.body.appendChild(script);
+
+      // Safety timeout
+      setTimeout(() => {
+        if (!done) {
+          cleanup();
+          show("Thanks! If you don't get a confirmation, please email me.", true);
+          form.reset();
+        }
+      }, 6000);
+    });
+  });
+</script>

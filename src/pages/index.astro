@@ -1,8 +1,57 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
+import HelpCards from "../components/HelpCards.astro";
+import Band from "../components/Band.astro";
+import SocialProof from "../components/SocialProof.astro";
+import FeaturedWork from "../components/FeaturedWork.astro";
+import SectionTitle from "../components/SectionTitle.astro";
+import VideoGrid from "../components/VideoGrid.astro";
+import MediumArticles from "../components/MediumArticles.astro";
+import NewsletterCTA from "../components/NewsletterCTA.astro";
+import Icon from "../components/Icon.astro";
+import { socials } from "../data/site";
 ---
 
 <Layout>
   <Hero />
+  <HelpCards />
+
+  <Band color="cream-deep">
+    <SocialProof />
+  </Band>
+
+  <FeaturedWork />
+
+  <!-- Latest videos -->
+  <Band color="cream-deep">
+    <section class="section">
+      <div class="container-page">
+        <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <SectionTitle eyebrow="learn with me" title="Latest videos" underline="videos" color="blue" variant={2}>
+            <p class="mt-5 max-w-md text-pretty leading-relaxed text-muted">
+              I break down Python, machine learning, and data science in plain
+              English on YouTube. Here's a taste.
+            </p>
+          </SectionTitle>
+          <a href={socials.youtube} target="_blank" rel="noopener noreferrer" class="reveal btn btn-secondary shrink-0" data-delay="120">
+            <Icon name="youtube" class="h-4 w-4" /> Visit channel
+          </a>
+        </div>
+        <div class="mt-12">
+          <VideoGrid limit={3} />
+        </div>
+
+        <!-- Writing peek -->
+        <div class="mt-16">
+          <h3 class="reveal font-display text-xl font-semibold text-navy">Fresh from the blog & Medium</h3>
+          <div class="mt-5">
+            <MediumArticles limit={2} />
+          </div>
+        </div>
+      </div>
+    </section>
+  </Band>
+
+  <NewsletterCTA group="newsletter" />
 </Layout>

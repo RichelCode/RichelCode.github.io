@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HandUnderline from "../components/HandUnderline.astro";
+import Band from "../components/Band.astro";
+import NewsletterCTA from "../components/NewsletterCTA.astro";
+import Icon from "../components/Icon.astro";
+import { site, assets, socials } from "../data/site";
+
+/* Exact intro copy provided by Richel (no em dashes, no emoji). */
+const paragraphs = [
+  "Hello there, I'm Richel. I'm an AI/ML engineer, data scientist, and educator, and my whole thing is making tech feel less intimidating and a lot more useful.",
+  "I work at the intersection of machine learning, statistics, and real-world problems. That means I build things like forecasting systems that predict demand before it happens, AI assistants that turn messy documents into clear answers, and models that help teams make better decisions with their data. I love taking an idea from 'what if we could...' all the way to something that actually works and ships.",
+  "Alongside the building, I teach. I've taught hundreds of students, from university classrooms to professionals leveling up their skills, and I create content on YouTube and Medium breaking down Python, machine learning, and data science in plain English. That's where 'Richel makes tech easy' comes from. I genuinely believe the best ideas are wasted if people can't understand them, so I spend a lot of time making complex things simple.",
+  "Right now I'm doing my MS in Statistics, building AI systems for clients and research, and turning everything I've learned into resources other people can use too.",
+  "If you're a business with a data problem, a researcher who needs a strong analytical partner, or someone learning this field and looking for a guide, you're in the right place. Take a look around, and if something clicks, let's talk.",
+];
+
+/* First paragraph minus the "Hello there, I'm Richel." that becomes the H1. */
+const lead = paragraphs[0].replace(/^Hello there, I'm Richel\.\s*/, "");
+const rest = paragraphs.slice(1);
+
+const facts = [
+  { k: "Currently", v: "MS in Statistics" },
+  { k: "From", v: "Ghana" },
+  { k: "Builds", v: "AI / ML systems" },
+  { k: "Teaches", v: "Python · ML · Data" },
+];
+---
+
+<Layout title="About" description="Richel Attafuah — AI/ML engineer, data scientist, and educator making tech easy.">
+  <section class="pt-32 pb-8 sm:pt-40">
+    <div class="container-page">
+      <div class="grid items-start gap-12 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
+        <!-- Intro copy -->
+        <div class="order-2 lg:order-1">
+          <span class="reveal eyebrow">nice to meet you</span>
+          <h1 class="reveal mt-2 text-4xl font-semibold leading-[1.08] sm:text-5xl" data-delay="40">
+            Hello there, I'm
+            <span class="relative inline-block whitespace-nowrap text-blue">
+              Richel
+              <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="blue" width={7} />
+            </span>
+          </h1>
+
+          <div class="mt-8 space-y-5 text-lg leading-relaxed text-ink/90">
+            <p class="reveal font-medium text-navy">{lead}</p>
+            {rest.map((p, i) => (
+              <p class="reveal" data-delay={`${i * 60}`}>{p}</p>
+            ))}
+          </div>
+
+          <div class="reveal mt-9 flex flex-wrap gap-3" data-delay="120">
+            <a href="/work" class="btn btn-primary">Work with me <Icon name="arrowRight" class="h-4 w-4" /></a>
+            <a href="/contact" class="btn btn-secondary">Say hello</a>
+          </div>
+        </div>
+
+        <!-- Photo + facts -->
+        <div class="reveal order-1 lg:order-2 lg:sticky lg:top-28" data-delay="80">
+          <div class="relative mx-auto max-w-sm">
+            <div class="absolute inset-0 rotate-3 rounded-[2.5rem] border-2 border-sky"></div>
+            <div class="relative overflow-hidden rounded-[2.5rem] border-4 border-white bg-sky-soft shadow-[var(--shadow-lift)]">
+              <img
+                src={assets.headshot}
+                alt={`Portrait of ${site.name}`}
+                class="aspect-[5/6] w-full object-cover"
+                onerror="this.src='/images/headshot-placeholder.svg'"
+              />
+            </div>
+            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-2xl border border-border bg-white px-5 py-3 text-center shadow-[var(--shadow-soft)]">
+              <p class="font-hand text-2xl leading-none text-blue">Richel makes tech easy</p>
+            </div>
+          </div>
+
+          <dl class="mt-12 grid grid-cols-2 gap-3">
+            {facts.map((f) => (
+              <div class="card p-4">
+                <dt class="font-mono text-xs uppercase tracking-wider text-muted">{f.k}</dt>
+                <dd class="mt-1 font-display text-base font-semibold text-navy">{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="mt-5 flex justify-center gap-2">
+            {[
+              { name: "github", href: socials.github, label: "GitHub" },
+              { name: "linkedin", href: socials.linkedin, label: "LinkedIn" },
+              { name: "youtube", href: socials.youtube, label: "YouTube" },
+              { name: "medium", href: socials.medium, label: "Medium" },
+            ].map((s) => (
+              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} class="grid h-10 w-10 place-items-center rounded-full border border-border bg-white text-muted transition-all hover:-translate-y-0.5 hover:border-blue hover:text-blue">
+                <Icon name={s.name} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <NewsletterCTA group="newsletter" />
+</Layout>
