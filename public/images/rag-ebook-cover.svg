@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 680" width="520" height="680">
+  <defs>
+    <linearGradient id="cov" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0C2A4A"/>
+      <stop offset="1" stop-color="#13395f"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9FC7EC"/>
+      <stop offset="1" stop-color="#2E6FB8"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="680" rx="20" fill="url(#cov)"/>
+  <rect x="34" y="34" width="452" height="612" rx="12" fill="none" stroke="#2E6FB8" stroke-opacity="0.5"/>
+  <!-- spine accent -->
+  <rect x="34" y="34" width="10" height="612" rx="5" fill="url(#acc)"/>
+
+  <text x="70" y="120" fill="#9FC7EC" font-family="Georgia, serif" font-size="22" letter-spacing="3">FREE GUIDE</text>
+
+  <text x="70" y="250" fill="#ffffff" font-family="Georgia, serif" font-size="52" font-weight="700">A Practical</text>
+  <text x="70" y="312" fill="#ffffff" font-family="Georgia, serif" font-size="52" font-weight="700">Introduction</text>
+  <text x="70" y="374" fill="#ffffff" font-family="Georgia, serif" font-size="52" font-weight="700">to <tspan fill="#E8A23D">RAG</tspan></text>
+
+  <text x="70" y="430" fill="#9FC7EC" font-family="Georgia, serif" font-size="24">Build Your First AI Assistant</text>
+
+  <!-- simple node diagram -->
+  <g stroke="url(#acc)" stroke-width="3" fill="none">
+    <circle cx="110" cy="540" r="26" fill="#13395f"/>
+    <circle cx="260" cy="540" r="26" fill="#13395f"/>
+    <circle cx="410" cy="540" r="26" fill="#13395f"/>
+    <path d="M136 540h98M286 540h98"/>
+  </g>
+  <g fill="#9FC7EC" font-family="Georgia, serif" font-size="13" text-anchor="middle">
+    <text x="110" y="545">query</text>
+    <text x="260" y="545">retrieve</text>
+    <text x="410" y="545">answer</text>
+  </g>
+
+  <text x="70" y="630" fill="#ffffff" font-family="Georgia, serif" font-size="22" font-weight="600">Richel Attafuah</text>
+</svg>

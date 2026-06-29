@@ -23,6 +23,8 @@ interface Props {
   withName?: boolean;
   compact?: boolean;
   placeholder?: string;
+  /** Optional override of the MailerLite subscribe action (e.g. a dedicated freebie form). */
+  action?: string;
 }
 const {
   group = "newsletter",
@@ -30,12 +32,13 @@ const {
   withName = false,
   compact = false,
   placeholder = "you@example.com",
+  action = MAILERLITE_SUBSCRIBE_ACTION,
 } = Astro.props;
 ---
 
 <form
   class="ml-form flex flex-col gap-3"
-  data-action={MAILERLITE_SUBSCRIBE_ACTION}
+  data-action={action}
   data-group={group}
 >
   <div class={`flex flex-col gap-3 ${compact ? "" : "sm:flex-row"}`}>
