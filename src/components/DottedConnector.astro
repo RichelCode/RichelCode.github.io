@@ -1,0 +1,46 @@
+---
+/* A hand-drawn dashed connector with an arrowhead, used to stitch the About
+   photo-story beats together so the eye travels down the page.
+     dir   — "lr" curves left-to-right, "rl" right-to-left
+     color — "blue" (default) | "sky" | CSS color */
+interface Props {
+  dir?: "lr" | "rl";
+  color?: "blue" | "sky" | string;
+  class?: string;
+}
+const { dir = "lr", color = "blue", class: className = "" } = Astro.props;
+const palette: Record<string, string> = { blue: "#2E6FB8", sky: "#9FC7EC" };
+const stroke = palette[color] ?? color;
+
+// Two gently curving hand-drawn paths (mirror of each other).
+const d =
+  dir === "lr"
+    ? "M30 6C30 40 168 56 170 92"
+    : "M170 6C170 40 32 56 30 92";
+// Arrowhead at the end point (approx 170/30, 92).
+const tip = dir === "lr" ? { x: 170, y: 96 } : { x: 30, y: 96 };
+---
+
+<div class={`pointer-events-none flex justify-center ${className}`} aria-hidden="true">
+  <svg
+    class="reveal h-24 w-52 overflow-visible"
+    viewBox="0 0 200 104"
+    fill="none"
+  >
+    <path
+      d={d}
+      stroke={stroke}
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-dasharray="1 9"
+    />
+    <!-- little arrowhead -->
+    <path
+      d={`M${tip.x - 7} ${tip.y - 9}L${tip.x} ${tip.y}L${tip.x + 7} ${tip.y - 9}`}
+      stroke={stroke}
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</div>

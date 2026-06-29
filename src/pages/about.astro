@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import HandUnderline from "../components/HandUnderline.astro";
-import Band from "../components/Band.astro";
+import DottedConnector from "../components/DottedConnector.astro";
 import NewsletterCTA from "../components/NewsletterCTA.astro";
 import Icon from "../components/Icon.astro";
 import { site, assets, socials } from "../data/site";
@@ -15,9 +15,7 @@ const paragraphs = [
   "If you're a business with a data problem, a researcher who needs a strong analytical partner, or someone learning this field and looking for a guide, you're in the right place. Take a look around, and if something clicks, let's talk.",
 ];
 
-/* First paragraph minus the "Hello there, I'm Richel." that becomes the H1. */
 const lead = paragraphs[0].replace(/^Hello there, I'm Richel\.\s*/, "");
-const rest = paragraphs.slice(1);
 
 const facts = [
   { k: "Education", v: "MSc Statistics" },
@@ -28,70 +26,117 @@ const facts = [
 ---
 
 <Layout title="About" description="Richel Attafuah, AI/ML engineer, data scientist, and educator making tech easy.">
-  <section class="pt-32 pb-8 sm:pt-40">
+  <!-- ░░ Intro ░░ -->
+  <section class="pt-32 pb-4 sm:pt-40">
     <div class="container-page">
-      <div class="grid items-start gap-12 lg:grid-cols-[1fr_0.85fr] lg:gap-16">
-        <!-- Intro copy -->
-        <div class="order-2 lg:order-1">
-          <span class="reveal eyebrow">nice to meet you</span>
-          <h1 class="reveal mt-2 text-4xl font-semibold leading-[1.08] sm:text-5xl" data-delay="40">
-            Hello there, I'm
-            <span class="relative inline-block whitespace-nowrap text-blue">
-              Richel
-              <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="blue" width={7} />
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="reveal eyebrow justify-center">nice to meet you</span>
+        <h1 class="reveal mt-2 text-4xl font-semibold leading-[1.08] sm:text-5xl md:text-6xl" data-delay="40">
+          Hello there, I'm
+          <span class="relative inline-block whitespace-nowrap text-blue">
+            Richel
+            <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="blue" width={7} />
+          </span>
+        </h1>
+        <p class="reveal mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink/90 sm:text-xl" data-delay="100">
+          {lead}
+        </p>
+
+        <div class="reveal mt-8 flex flex-wrap justify-center gap-2.5" data-delay="160">
+          {facts.map((f) => (
+            <span class="pill">
+              <span class="font-mono text-[0.62rem] uppercase tracking-wider text-muted">{f.k}</span>
+              <span class="font-display font-semibold text-navy">{f.v}</span>
             </span>
-          </h1>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="mt-8 space-y-5 text-lg leading-relaxed text-ink/90">
-            <p class="reveal font-medium text-navy">{lead}</p>
-            {rest.map((p, i) => (
-              <p class="reveal" data-delay={`${i * 60}`}>{p}</p>
-            ))}
+  <!-- ░░ Story ░░ -->
+  <section class="pb-8">
+    <div class="container-page">
+      <!-- Beat 1: Building (photo right) -->
+      <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div class="reveal order-2 lg:order-1">
+          <span class="font-hand text-2xl text-blue">what I do</span>
+          <h2 class="mt-1 font-display text-2xl font-semibold text-navy sm:text-3xl">I build things that ship</h2>
+          <p class="mt-4 text-lg leading-relaxed text-ink/90">{paragraphs[1]}</p>
+        </div>
+        <div class="reveal order-1 lg:order-2" data-delay="80">
+          <div class="relative mx-auto max-w-md rotate-2">
+            <div class="overflow-hidden rounded-[2rem] border-4 border-white bg-sky-soft shadow-[var(--shadow-lift)]">
+              <img src={assets.aboutBuilding} alt="Richel working at her desk with growth charts behind her" class="aspect-[4/5] w-full object-cover" loading="lazy" onerror="this.src='/images/headshot-placeholder.svg'" />
+            </div>
+            <div class="absolute -bottom-4 -left-3 -rotate-3 rounded-2xl border border-border bg-white px-4 py-2 shadow-[var(--shadow-soft)]">
+              <span class="font-hand text-2xl text-blue">Building</span>
+            </div>
           </div>
+        </div>
+      </div>
 
-          <div class="reveal mt-9 flex flex-wrap gap-3" data-delay="120">
+      <DottedConnector dir="rl" color="sky" class="my-2" />
+
+      <!-- Beat 2: Teaching (photo left) -->
+      <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div class="reveal" data-delay="80">
+          <div class="relative mx-auto max-w-md -rotate-2">
+            <div class="overflow-hidden rounded-[2rem] border-4 border-white bg-sky-soft shadow-[var(--shadow-lift)]">
+              <img src={assets.aboutTeaching} alt="Richel presenting a data strategy at a whiteboard to an audience" class="aspect-[4/5] w-full object-cover" loading="lazy" onerror="this.src='/images/headshot-placeholder.svg'" />
+            </div>
+            <div class="absolute -bottom-4 -right-3 rotate-3 rounded-2xl border border-border bg-white px-4 py-2 shadow-[var(--shadow-soft)]">
+              <span class="font-hand text-2xl text-blue">Teaching</span>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="font-hand text-2xl text-blue">and I share it</span>
+          <h2 class="mt-1 font-display text-2xl font-semibold text-navy sm:text-3xl">Richel makes tech easy</h2>
+          <p class="mt-4 text-lg leading-relaxed text-ink/90">{paragraphs[2]}</p>
+        </div>
+      </div>
+
+      <DottedConnector dir="lr" color="sky" class="my-2" />
+
+      <!-- Beat 3: Let's work together (photo right) -->
+      <div class="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div class="reveal order-2 lg:order-1">
+          <span class="font-hand text-2xl text-blue">where I am now</span>
+          <h2 class="mt-1 font-display text-2xl font-semibold text-navy sm:text-3xl">Let's work together</h2>
+          <p class="mt-4 text-lg leading-relaxed text-ink/90">{paragraphs[3]}</p>
+          <p class="mt-4 text-lg leading-relaxed text-ink/90">{paragraphs[4]}</p>
+
+          <div class="mt-7 flex flex-wrap gap-3">
             <a href="/work" class="btn btn-primary">Work with me <Icon name="arrowRight" class="h-4 w-4" /></a>
             <a href="/contact" class="btn btn-secondary">Say hello</a>
           </div>
-        </div>
 
-        <!-- Photo + facts -->
-        <div class="reveal order-1 lg:order-2 lg:sticky lg:top-28" data-delay="80">
-          <div class="relative mx-auto max-w-sm">
-            <div class="absolute inset-0 rotate-3 rounded-[2.5rem] border-2 border-sky"></div>
-            <div class="relative overflow-hidden rounded-[2.5rem] border-4 border-white bg-sky-soft shadow-[var(--shadow-lift)]">
-              <img
-                src={assets.headshot}
-                alt={`Portrait of ${site.name}`}
-                class="aspect-[5/6] w-full object-cover"
-                onerror="this.src='/images/headshot-placeholder.svg'"
-              />
-            </div>
-            <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 rounded-2xl border border-border bg-white px-5 py-3 text-center shadow-[var(--shadow-soft)]">
-              <p class="font-hand text-2xl leading-none text-blue">Richel makes tech easy</p>
+          <div class="mt-7 flex items-center gap-3">
+            <span class="font-hand text-xl text-blue">find me online</span>
+            <div class="flex gap-1.5">
+              {[
+                { name: "github", href: socials.github, label: "GitHub" },
+                { name: "linkedin", href: socials.linkedin, label: "LinkedIn" },
+                { name: "youtube", href: socials.youtube, label: "YouTube" },
+                { name: "medium", href: socials.medium, label: "Medium" },
+              ].map((s) => (
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} class="grid h-10 w-10 place-items-center rounded-full border border-border bg-white text-muted transition-all hover:-translate-y-0.5 hover:border-blue hover:text-blue">
+                  <Icon name={s.name} />
+                </a>
+              ))}
             </div>
           </div>
-
-          <dl class="mt-12 grid grid-cols-2 gap-3">
-            {facts.map((f) => (
-              <div class="card p-4">
-                <dt class="font-mono text-xs uppercase tracking-wider text-muted">{f.k}</dt>
-                <dd class="mt-1 font-display text-base font-semibold text-navy">{f.v}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div class="mt-5 flex justify-center gap-2">
-            {[
-              { name: "github", href: socials.github, label: "GitHub" },
-              { name: "linkedin", href: socials.linkedin, label: "LinkedIn" },
-              { name: "youtube", href: socials.youtube, label: "YouTube" },
-              { name: "medium", href: socials.medium, label: "Medium" },
-            ].map((s) => (
-              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} class="grid h-10 w-10 place-items-center rounded-full border border-border bg-white text-muted transition-all hover:-translate-y-0.5 hover:border-blue hover:text-blue">
-                <Icon name={s.name} />
-              </a>
-            ))}
+        </div>
+        <div class="reveal order-1 lg:order-2" data-delay="80">
+          <div class="relative mx-auto max-w-md rotate-2">
+            <div class="absolute inset-0 -rotate-3 rounded-[2rem] border-2 border-sky"></div>
+            <div class="relative overflow-hidden rounded-[2rem] border-4 border-white bg-sky-soft shadow-[var(--shadow-lift)]">
+              <img src={assets.aboutPortrait} alt={`Portrait of ${site.name}`} class="aspect-[4/5] w-full object-cover" loading="lazy" onerror="this.src='/images/headshot-placeholder.svg'" />
+            </div>
+            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 rounded-2xl border border-border bg-white px-5 py-2 text-center shadow-[var(--shadow-soft)]">
+              <span class="font-hand text-2xl text-blue">Richel makes tech easy</span>
+            </div>
           </div>
         </div>
       </div>

@@ -48,6 +48,10 @@ export const MAILERLITE_SUBSCRIBE_ACTION =
 export const assets = {
   headshot: "/images/richel-headshot.jpg",
   helloGif: "/images/hello-wave.gif",
+  // About-page photo story (building / teaching / portrait)
+  aboutBuilding: "/images/about-building.jpg",
+  aboutTeaching: "/images/about-teaching.jpg",
+  aboutPortrait: "/images/about-portrait.jpg",
 };
 
 /* ----------------------------------------------------------------------------
