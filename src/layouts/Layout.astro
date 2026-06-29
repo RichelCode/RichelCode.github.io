@@ -20,7 +20,7 @@ const {
 
 const pageTitle = title
   ? `${title} · ${site.firstName} Attafuah`
-  : `${site.name} — ${site.tagline}`;
+  : `${site.name} · ${site.tagline}`;
 
 const canonical = new URL(path, Astro.site ?? site.url).toString();
 const ogImage = new URL(image, Astro.site ?? site.url).toString();

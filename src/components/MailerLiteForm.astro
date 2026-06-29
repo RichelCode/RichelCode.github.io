@@ -3,17 +3,17 @@ import Icon from "./Icon.astro";
 import { MAILERLITE_SUBSCRIBE_ACTION } from "../data/site";
 
 /* ════════════════════════════════════════════════════════════════════════
-   MailerLiteForm — clean, on-brand subscribe form.
+   MailerLiteForm, clean, on-brand subscribe form.
    Submits to your MailerLite subscribe action via JSONP (works cross-origin,
    no page reload, no MailerLite grey styling). Used for the newsletter and for
    product-interest capture.
 
    Props:
-     group       — identifier sent as fields[interest] so you can tell which
+     group, identifier sent as fields[interest] so you can tell which
                    form/product a subscriber came from (newsletter, course, ...)
-     buttonLabel — CTA text
-     withName    — also collect a first name
-     compact     — tighter layout
+     buttonLabel, CTA text
+     withName, also collect a first name
+     compact, tighter layout
    NOTE: for the `interest` value to be saved, create a custom field named
    "interest" in MailerLite (Subscribers → Fields). The email itself always works.
    ════════════════════════════════════════════════════════════════════════ */
@@ -65,7 +65,7 @@ const {
 </form>
 
 <script>
-  // JSONP submit to MailerLite — one handler for every .ml-form on the page.
+  // JSONP submit to MailerLite, one handler for every .ml-form on the page.
   document.querySelectorAll<HTMLFormElement>(".ml-form").forEach((form) => {
     const status = form.querySelector(".ml-status") as HTMLElement;
     const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
@@ -115,7 +115,7 @@ const {
         cleanup();
         if (res && (res.success || res.id || res.ID)) {
           form.reset();
-          show("You're in! 🎉 Thanks — I'll be in touch.", true);
+          show("You're in! 🎉 Thanks, I'll be in touch.", true);
         } else {
           show("Hmm, that didn't go through. Please try again or email me.", false);
         }
@@ -125,7 +125,7 @@ const {
         if (!done) {
           cleanup();
           // JSONP can be blocked; treat optimistically but honestly.
-          show("Could not reach the server — please try again in a moment.", false);
+          show("Could not reach the server, please try again in a moment.", false);
         }
       };
 

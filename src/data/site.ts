@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════
-   SITE CONFIG — identity, links, and integration credentials.
+   SITE CONFIG, identity, links, and integration credentials.
    ════════════════════════════════════════════════════════════════════════ */
 
 export const site = {
@@ -26,13 +26,13 @@ export const socials = {
 };
 
 /* ----------------------------------------------------------------------------
-   FORMSPREE — contact form (React, @formspree/react)
+   FORMSPREE, contact form (React, @formspree/react)
    Form ID provided and wired in. Change here if you ever rotate it.
 ---------------------------------------------------------------------------- */
 export const FORMSPREE_ID = "xrewklzz";
 
 /* ----------------------------------------------------------------------------
-   MAILERLITE — newsletter + product-interest forms (custom-styled, posts to
+   MAILERLITE, newsletter + product-interest forms (custom-styled, posts to
    the JSONP subscribe action below). Account + action provided and wired in.
 ---------------------------------------------------------------------------- */
 export const MAILERLITE_ACCOUNT_ID = "2475589";
@@ -51,7 +51,7 @@ export const assets = {
 };
 
 /* ----------------------------------------------------------------------------
-   PRIMARY NAV — the "rooms" of the site
+   PRIMARY NAV, the "rooms" of the site
 ---------------------------------------------------------------------------- */
 export const navLinks = [
   { label: "About", href: "/about" },

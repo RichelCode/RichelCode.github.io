@@ -29,10 +29,10 @@ Writing here does three things for me:
 
 Expect posts on the things I work on every day:
 
-1. **Forecasting and time series** — including the spatio-temporal work I find
+1. **Forecasting and time series**, including the spatio-temporal work I find
    genuinely fun.
-2. **RAG and AI assistants** — how to make them accurate, grounded, and useful.
-3. **The statistician's mindset** — uncertainty, experiment design, and why
+2. **RAG and AI assistants**, how to make them accurate, grounded, and useful.
+3. **The statistician's mindset**, uncertainty, experiment design, and why
    rigor still matters.
 
 > Richel makes tech easy. That's the whole goal, and it's what every post here
