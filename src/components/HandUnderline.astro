@@ -1,0 +1,66 @@
+---
+/* ════════════════════════════════════════════════════════════════════════
+   HandUnderline — the signature brand element.
+   A slightly wavy, brushy "marker" squiggle used consistently under the hero
+   greeting and section titles across the whole site.
+
+   Usage (place it as an absolutely-positioned child of a relative wrapper):
+     <span class="relative inline-block">
+       Heading text
+       <HandUnderline class="absolute -bottom-2 left-0 w-full" />
+     </span>
+
+   Props:
+     color    — "blue" (default) | "sky" | "gold" | "navy" | any CSS color
+     variant  — 0 | 1 | 2  (different squiggle shapes so repeated use varies)
+   ════════════════════════════════════════════════════════════════════════ */
+interface Props {
+  color?: "blue" | "sky" | "gold" | "navy" | string;
+  variant?: 0 | 1 | 2;
+  class?: string;
+  width?: number; // stroke width
+}
+
+const {
+  color = "blue",
+  variant = 0,
+  class: className = "",
+  width = 6,
+} = Astro.props;
+
+const palette: Record<string, string> = {
+  blue: "#2E6FB8",
+  sky: "#9FC7EC",
+  gold: "#E8A23D",
+  navy: "#0C2A4A",
+};
+const stroke = palette[color] ?? color;
+
+/* A few organic, hand-drawn squiggle paths in a 300 x 24 viewBox.
+   They intentionally wobble so they read as drawn by hand, not a CSS border. */
+const paths = [
+  "M4 15.5C52 9 100 20 150 13.5 200 7 252 18 296 11",
+  "M5 13C40 19 80 8 128 14c44 5.5 84-6 163-2.5",
+  "M4 16c46-9 92 6 140-1.5C236 7 256 19 297 9.5",
+];
+const d = paths[variant] ?? paths[0];
+/* Approx path length for the draw-in animation (set generously). */
+const len = 340;
+---
+
+<svg
+  class={`hand-underline pointer-events-none overflow-visible ${className}`}
+  viewBox="0 0 300 24"
+  fill="none"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  style={`--len:${len}`}
+>
+  <path
+    d={d}
+    stroke={stroke}
+    stroke-width={width}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

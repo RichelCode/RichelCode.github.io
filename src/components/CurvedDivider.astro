@@ -1,0 +1,41 @@
+---
+/* Soft curved divider for friendly transitions between sections.
+   Place it at the very top or bottom of a section. `fill` should match the
+   color of the section the curve is "pouring into".
+     color  — "cream" | "card" | "cream-deep" | "navy" | "sky-soft" | any CSS color
+     flip   — mirror vertically (curve dips down instead of up)
+     position — "bottom" (default) sits at section bottom; "top" sits at top */
+interface Props {
+  color?: string;
+  flip?: boolean;
+  class?: string;
+}
+const { color = "cream", flip = false, class: className = "" } = Astro.props;
+
+const fills: Record<string, string> = {
+  cream: "#FBF8F2",
+  "cream-deep": "#F4EEE2",
+  card: "#FFFFFF",
+  navy: "#0C2A4A",
+  "sky-soft": "#EAF2FB",
+  white: "#FFFFFF",
+};
+const fill = fills[color] ?? color;
+---
+
+<div
+  class={`pointer-events-none relative w-full leading-[0] ${flip ? "rotate-180" : ""} ${className}`}
+  aria-hidden="true"
+>
+  <svg
+    class="block h-[56px] w-full sm:h-[80px]"
+    viewBox="0 0 1440 80"
+    preserveAspectRatio="none"
+    fill="none"
+  >
+    <path
+      d="M0 80V40C240 8 480 0 720 16c240 16 480 40 720 24V80H0Z"
+      fill={fill}
+    />
+  </svg>
+</div>
