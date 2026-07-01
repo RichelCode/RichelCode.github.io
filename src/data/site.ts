@@ -52,7 +52,7 @@ export const FREEBIE_GROUP = "freebie-rag-ebook";
 
 /* Direct download link for the finished ebook PDF. Leave empty until the PDF is
    ready: delivery happens via a MailerLite automation that emails the link. */
-export const EBOOK_DOWNLOAD_URL = ""; // TODO: paste the public PDF link once the ebook is finished
+export const EBOOK_DOWNLOAD_URL = "/RAG_ebook_web.pdf"; // lives in public/, served at the site root
 
 /* ----------------------------------------------------------------------------
    ASSETS the user provides (drop the files at these paths in the repo):
