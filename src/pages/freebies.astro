@@ -48,17 +48,31 @@ const formProps = {
 
     <div class="container-page">
       <div class="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        <!-- Cover -->
+        <!-- Cover: real cover art as the face of a tilted 3D book -->
         <div class="reveal order-1">
-          <div class="relative mx-auto max-w-xs sm:max-w-sm">
-            <div class="absolute inset-0 -rotate-6 rounded-[1.5rem] bg-navy/10"></div>
-            <img
-              src={assets.ebookCover}
-              alt="Cover of the free ebook, A Practical Introduction to RAG"
-              class="relative w-full rotate-2 rounded-[1.25rem] shadow-[var(--shadow-lift)] ring-1 ring-border"
-              onerror="this.onerror=null; this.src='/images/rag-ebook-cover.svg'"
-            />
-            <span class="absolute -right-3 -top-3 rotate-6 rounded-full bg-gold px-4 py-1.5 text-sm font-semibold text-[#3d2a06] shadow-[var(--shadow-soft)]">
+          <div class="relative mx-auto w-72 [perspective:1800px] sm:w-[23rem]">
+            <!-- soft ground shadow -->
+            <div class="absolute -bottom-9 left-1/2 h-12 w-[85%] -translate-x-1/2 rounded-[50%] bg-navy/35 blur-3xl"></div>
+
+            <div class="group relative transition-transform duration-700 ease-out [transform:perspective(1800px)_rotateY(-19deg)_rotateX(4deg)] hover:[transform:perspective(1800px)_rotateY(-9deg)_rotateX(2deg)]">
+              <!-- page block behind the cover to fake paper thickness -->
+              <div class="absolute inset-0 translate-x-[16px] rounded-xl rounded-l-sm bg-gradient-to-r from-[#d9cdb4] via-[#f0e9d9] to-[#efe8d8] shadow-[0_40px_80px_-30px_rgba(12,42,74,0.6)]"></div>
+
+              <!-- front cover (the real cover image, no distortion) -->
+              <img
+                src={assets.ebookCover}
+                alt="Cover of the free ebook, A Practical Introduction to RAG: Build Your First AI Assistant"
+                class="relative block aspect-[17/22] w-full rounded-xl rounded-l-sm object-cover object-center shadow-[0_45px_90px_-25px_rgba(12,42,74,0.65)] ring-1 ring-black/10"
+                onerror="this.onerror=null; this.src='/images/rag-ebook-cover.svg'"
+              />
+
+              <!-- spine shadow on the binding edge -->
+              <div class="pointer-events-none absolute inset-y-0 left-0 w-8 rounded-l-sm bg-gradient-to-r from-black/40 via-black/12 to-transparent"></div>
+              <!-- subtle light sheen -->
+              <div class="pointer-events-none absolute inset-0 rounded-xl rounded-l-sm bg-gradient-to-tr from-transparent via-transparent to-white/20"></div>
+            </div>
+
+            <span class="absolute -right-5 -top-5 rotate-6 rounded-full bg-gold px-5 py-2 text-base font-bold text-[#3d2a06] shadow-[0_14px_30px_-8px_rgba(232,162,61,0.8)]">
               100% free
             </span>
           </div>
