@@ -3,15 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import HandUnderline from "../components/HandUnderline.astro";
 import SectionTitle from "../components/SectionTitle.astro";
 import Band from "../components/Band.astro";
-import MailerLiteForm from "../components/MailerLiteForm.astro";
 import Icon from "../components/Icon.astro";
-import {
-  site,
-  assets,
-  socials,
-  FREEBIE_GROUP,
-  MAILERLITE_FREEBIE_ACTION,
-} from "../data/site";
+import RagEbookEmbed from "../components/RagEbookEmbed.astro";
+import { site, assets } from "../data/site";
 
 const learn = [
   "What RAG actually is, explained without the jargon",
@@ -25,13 +19,8 @@ const learn = [
   "Where to go next to keep building",
 ];
 
-const formProps = {
-  group: FREEBIE_GROUP,
-  action: MAILERLITE_FREEBIE_ACTION,
-  withName: true,
-  buttonLabel: "Send me the guide",
-  placeholder: "Your best email",
-};
+// 3 teaser bullets shown beside the signup form
+const teaser = [learn[0], learn[3], learn[5]];
 ---
 
 <Layout
@@ -39,8 +28,8 @@ const formProps = {
   description="Grab my free guide, A Practical Introduction to RAG: Build Your First AI Assistant. Learn how Retrieval-Augmented Generation works, in plain English."
   image={assets.ebookCover}
 >
-  <!-- ░░ Hero ░░ -->
-  <section class="relative overflow-hidden pt-32 pb-12 sm:pt-40 sm:pb-16">
+  <!-- ░░ Hero + signup ░░ -->
+  <section id="get-the-ebook" class="relative overflow-hidden scroll-mt-24 pt-32 pb-12 sm:pt-40 sm:pb-16">
     <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       <div class="absolute -left-24 top-24 h-96 w-96 rounded-full bg-sky/40 blur-3xl"></div>
       <div class="absolute right-[-6rem] top-40 h-80 w-80 rounded-full bg-gold/15 blur-3xl"></div>
@@ -78,39 +67,46 @@ const formProps = {
           </div>
         </div>
 
-        <!-- Copy + form -->
+        <!-- Copy + signup -->
         <div class="order-2">
           <span class="reveal eyebrow">free guide</span>
-          <h1 class="reveal mt-2 text-4xl font-semibold leading-[1.08] sm:text-5xl" data-delay="40">
+          <!-- Section heading: Caveat, navy -->
+          <h1 class="reveal mt-2 font-hand text-5xl font-bold leading-[1.05] text-navy sm:text-6xl" data-delay="40">
+            Get the free RAG ebook
+          </h1>
+          <p class="reveal mt-2 font-display text-lg text-navy/70" data-delay="70">
             A Practical Introduction to
             <span class="relative inline-block whitespace-nowrap text-blue">
               RAG
-              <HandUnderline class="absolute -bottom-2 left-0 h-5 w-full" color="blue" width={7} />
+              <HandUnderline class="absolute -bottom-1.5 left-0 h-4 w-full" color="blue" width={6} />
             </span>
-          </h1>
-          <p class="reveal mt-3 font-display text-xl text-navy/80" data-delay="80">
-            Build your first AI assistant.
+            · Build Your First AI Assistant
           </p>
 
-          <p class="reveal mt-6 max-w-md text-lg leading-relaxed text-ink/90" data-delay="120">
-            Not ready to work together yet? No problem. Grab my free guide to
-            building your first AI assistant.
-          </p>
-          <p class="reveal mt-3 max-w-md leading-relaxed text-muted" data-delay="160">
-            A plain-English walkthrough of how Retrieval-Augmented Generation
-            works, and how to build a RAG system from scratch.
+          <!-- Blurb: Patrick Hand, body color -->
+          <p class="reveal mt-5 max-w-md font-patrick text-xl leading-relaxed text-ink" data-delay="110">
+            An illustrated, beginner-friendly guide to building your first AI
+            assistant with RAG. No jargon, no fluff, just the good stuff explained
+            simply.
           </p>
 
-          <!-- Email capture (hero) -->
-          <div class="reveal mt-7 max-w-md" data-delay="200">
-            <MailerLiteForm {...formProps} />
+          <!-- 3 quick "what you'll learn" bullets -->
+          <ul class="reveal mt-5 space-y-2.5" data-delay="150">
+            {teaser.map((item) => (
+              <li class="flex items-start gap-2.5 text-[0.95rem] text-ink/90">
+                <Icon name="check" class="mt-0.5 h-4 w-4 shrink-0 text-blue" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          <!-- Official MailerLite signup (joins Blog Subscribers → double opt-in → ebook email) -->
+          <div class="reveal mt-7 max-w-md rounded-3xl border border-border bg-white/70 p-5 shadow-[var(--shadow-soft)] sm:p-6" data-delay="190">
+            <RagEbookEmbed />
             <p class="mt-3 flex items-center gap-2 text-xs text-muted">
               <Icon name="check" class="h-4 w-4 text-blue" />
-              No spam. I'll email you the guide and the occasional useful thing.
+              Double opt-in. Confirm your email and the guide lands in your inbox. No spam.
             </p>
-            <!-- TODO (ebook delivery): set up a MailerLite automation that emails the
-                 download link to anyone who joins the "freebie-rag-ebook" group.
-                 Paste the PDF link into EBOOK_DOWNLOAD_URL in src/data/site.ts. -->
           </div>
         </div>
       </div>
@@ -221,12 +217,12 @@ const formProps = {
             the fastest path from curious to building.
           </p>
 
-          <div class="mx-auto mt-8 max-w-md text-left">
-            <MailerLiteForm {...formProps} />
-            <p class="mt-3 text-center text-xs text-white/55">
-              Join the readers learning to build with AI. Unsubscribe anytime.
-            </p>
-          </div>
+          <a href="#get-the-ebook" class="btn btn-gold mt-8">
+            Get the free ebook <Icon name="arrowRight" class="h-4 w-4" />
+          </a>
+          <p class="mt-4 text-center text-xs text-white/55">
+            Double opt-in. Unsubscribe anytime.
+          </p>
         </div>
       </div>
     </div>

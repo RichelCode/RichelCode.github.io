@@ -10,7 +10,7 @@ import VideoGrid from "../components/VideoGrid.astro";
 import MediumArticles from "../components/MediumArticles.astro";
 import NewsletterCTA from "../components/NewsletterCTA.astro";
 import Icon from "../components/Icon.astro";
-import { socials } from "../data/site";
+import { socials, assets } from "../data/site";
 ---
 
 <Layout>
@@ -22,6 +22,36 @@ import { socials } from "../data/site";
   </Band>
 
   <FeaturedWork />
+
+  <!-- Free ebook teaser -->
+  <section class="section !pt-0">
+    <div class="container-page">
+      <a
+        href="/freebies#get-the-ebook"
+        class="reveal card card-hover group flex flex-col items-center gap-6 p-6 sm:flex-row sm:gap-8 sm:p-8"
+      >
+        <img
+          src={assets.ebookCover}
+          alt="Free ebook: A Practical Introduction to RAG"
+          class="h-44 w-auto shrink-0 -rotate-3 rounded-lg shadow-[var(--shadow-soft)] ring-1 ring-black/10 transition-transform duration-500 group-hover:-rotate-1"
+          onerror="this.src='/images/rag-ebook-cover.svg'"
+        />
+        <div class="flex-1 text-center sm:text-left">
+          <span class="font-hand text-2xl text-blue">free ebook</span>
+          <h3 class="mt-1 font-display text-2xl font-semibold text-navy sm:text-3xl">
+            Get the free RAG ebook
+          </h3>
+          <p class="mt-2 max-w-lg text-muted">
+            An illustrated, beginner-friendly guide to building your first AI
+            assistant with RAG. No jargon, just the good stuff.
+          </p>
+        </div>
+        <span class="btn btn-gold shrink-0">
+          Get the free RAG ebook <Icon name="arrowRight" class="h-4 w-4" />
+        </span>
+      </a>
+    </div>
+  </section>
 
   <!-- Latest videos -->
   <Band color="cream-deep">
