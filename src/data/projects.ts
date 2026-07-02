@@ -30,36 +30,16 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    title: "Call Report Copilot",
-    category: "RAG · AI Assistant",
+    title: "Reading the Grid — Solar-Cell Fault Detection",
+    category: "Computer Vision · Explainable AI",
     description:
-      "A retrieval-augmented copilot that lets analysts ask natural-language questions over dense regulatory call-report data and get grounded, cited answers.",
-    impact: "Impact: turned hours of manual lookup into seconds of conversational, source-grounded Q&A, [add metric: e.g. time saved per report].",
-    stack: ["Python", "LangChain", "RAG", "Vector DB"],
-    demoUrl: undefined,
-    repoUrl: undefined,
-    featured: true,
-  },
-  {
-    title: "Market Intelligence Multi-Agent System",
-    category: "Multi-Agent · LLM Orchestration",
-    description:
-      "A team of cooperating AI agents that research, summarize, and synthesize market signals into a single intelligence brief, each agent owning a slice of the pipeline.",
-    impact: "Impact: automated multi-step market research into a repeatable agent workflow, [add metric: e.g. reports produced / hours saved].",
-    stack: ["Python", "Multi-Agent", "LLMs", "Tool Use"],
-    demoUrl: undefined,
-    repoUrl: undefined,
-    featured: true,
-  },
-  {
-    title: "Employee Attrition Prediction",
-    category: "Predictive ML · People Analytics",
-    description:
-      "A classification model that flags employees at elevated risk of leaving and surfaces the drivers behind it, giving HR teams a head start on retention.",
-    impact: "Impact: identified key attrition drivers and at-risk segments for proactive retention, [add metric: e.g. ROC-AUC / recall].",
-    stack: ["Python", "scikit-learn", "XGBoost", "SHAP"],
-    demoUrl: undefined,
-    repoUrl: undefined,
+      "A CNN that flags faulty solar cells from electroluminescence images, paired with a Grad-CAM heatmap that shows exactly where the model looked, so a human inspector can trust and verify each call. Ships as a single Docker container (FastAPI + React), live on Hugging Face Spaces.",
+    impact:
+      "Impact: 84.8% accuracy and 85.4% faulty recall on a held-out test set (n=394); fine-tuning ResNet18 on EL imagery lifted faulty recall from 0.72 to 0.85, with recall deliberately prioritized so field faults aren't missed.",
+    stack: ["PyTorch", "ResNet18", "Grad-CAM", "FastAPI", "React", "Docker"],
+    media: { type: "video", src: "/projects/reading-the-grid-demo.mp4", alt: "Reading the Grid demo: fault prediction and Grad-CAM compare view" },
+    demoUrl: "https://huggingface.co/spaces/RichelCode/reading-the-grid",
+    repoUrl: "https://github.com/RichelCode/reading-the-grid",
     featured: true,
   },
 ];
