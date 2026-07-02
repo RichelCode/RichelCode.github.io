@@ -19,7 +19,7 @@ export const site = {
 ---------------------------------------------------------------------------- */
 export const socials = {
   github: "https://github.com/RichelCode", // TODO: confirm GitHub URL
-  linkedin: "https://www.linkedin.com/in/richel-attafuah", // TODO: paste your exact LinkedIn URL
+  linkedin: "https://www.linkedin.com/in/richelattafuah/",
   medium: "https://medium.com/@richelattafuah",
   youtube: "https://www.youtube.com/@richelattafuah23",
   email: "mailto:richelattafuah@gmail.com",
