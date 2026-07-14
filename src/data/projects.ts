@@ -26,8 +26,8 @@ export const projects: Project[] = [
     impact: "Impact: captured spatial + temporal demand patterns for smarter charger placement, [add metric: e.g. X% lower forecast error vs. baseline].",
     stack: ["Python", "PyTorch", "Time Series", "Geospatial"],
     media: { type: "video", src: "/projects/spatio-temporal-ev-demo.mp4", alt: "Spatio-Temporal EV charging demand forecasting demo", poster: "/projects/spatio-temporal-poster.jpg" },
-    demoUrl: undefined, // TODO: YouTube/Loom demo link
-    repoUrl: undefined, // TODO: GitHub repo
+    demoUrl: "https://richelcode.github.io/ev-charging-demand-demo/",
+    repoUrl: "https://github.com/RichelCode/Spatio-Temporal-Prediction-and-Coordination-of-EV-Charging-Demand-for-Power-System-Resilience",
     featured: true,
   },
   {
