@@ -15,7 +15,7 @@ const { project: p, delay = 0 } = Astro.props;
     {
       p.media ? (
         p.media.type === "video" ? (
-          <video class="h-full w-full object-cover" autoplay muted loop playsinline src={p.media.src} />
+          <video class="h-full w-full object-cover" autoplay muted loop playsinline preload="metadata" poster={p.media.poster} src={p.media.src} />
         ) : (
           <img class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={p.media.src} alt={p.media.alt ?? p.title} loading="lazy" />
         )

@@ -11,7 +11,7 @@ export interface Project {
   description: string;
   impact: string;
   stack: string[];
-  media?: { type: "image" | "video"; src: string; alt?: string };
+  media?: { type: "image" | "video"; src: string; alt?: string; poster?: string };
   demoUrl?: string;
   repoUrl?: string;
   featured?: boolean;
@@ -25,7 +25,7 @@ export const projects: Project[] = [
       "Forecasts electric-vehicle charging demand across both space and time, helping operators decide where and when charging capacity is needed before the queues form.",
     impact: "Impact: captured spatial + temporal demand patterns for smarter charger placement, [add metric: e.g. X% lower forecast error vs. baseline].",
     stack: ["Python", "PyTorch", "Time Series", "Geospatial"],
-    media: { type: "video", src: "/projects/spatio-temporal-ev-demo.mp4", alt: "Spatio-Temporal EV charging demand forecasting demo" },
+    media: { type: "video", src: "/projects/spatio-temporal-ev-demo.mp4", alt: "Spatio-Temporal EV charging demand forecasting demo", poster: "/projects/spatio-temporal-poster.jpg" },
     demoUrl: undefined, // TODO: YouTube/Loom demo link
     repoUrl: undefined, // TODO: GitHub repo
     featured: true,
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     impact:
       "Impact: 84.8% accuracy and 85.4% faulty recall on a held-out test set (n=394); fine-tuning ResNet18 on EL imagery lifted faulty recall from 0.72 to 0.85, with recall deliberately prioritized so field faults aren't missed.",
     stack: ["PyTorch", "ResNet18", "Grad-CAM", "FastAPI", "React", "Docker"],
-    media: { type: "video", src: "/projects/reading-the-grid-demo.mp4", alt: "Reading the Grid demo: fault prediction and Grad-CAM compare view" },
+    media: { type: "video", src: "/projects/reading-the-grid-demo.mp4", alt: "Reading the Grid demo: fault prediction and Grad-CAM compare view", poster: "/projects/reading-the-grid-poster.jpg" },
     demoUrl: "https://huggingface.co/spaces/RichelCode/reading-the-grid",
     repoUrl: "https://github.com/RichelCode/reading-the-grid",
     featured: true,
