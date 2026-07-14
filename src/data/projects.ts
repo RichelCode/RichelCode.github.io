@@ -31,7 +31,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    title: "Reading the Grid — Solar-Cell Fault Detection",
+    title: "Reading the Grid: Solar-Cell Fault Detection",
     category: "Computer Vision · Explainable AI",
     description:
       "A CNN that flags faulty solar cells from electroluminescence images, paired with a Grad-CAM heatmap that shows exactly where the model looked, so a human inspector can trust and verify each call. Ships as a single Docker container (FastAPI + React), live on Hugging Face Spaces.",

@@ -1,6 +1,6 @@
 # RichelCode.github.io
 
-Personal website & consulting site for **Richel Ohenewaa Attafuah** —
+Personal website & consulting site for **Richel Ohenewaa Attafuah**,
 AI/ML Engineer & Data Scientist. Built with [Astro](https://astro.build) +
 Tailwind CSS v4, deployed to GitHub Pages.
 

@@ -13,6 +13,11 @@ export default defineConfig({
   // (A `base` is only required for project repos like `<username>.github.io/<project>`.)
   site: 'https://richelcode.github.io',
 
+  // Keep significant whitespace between text and inline elements (e.g. a word
+  // next to a highlighted <span> in a heading). With the default compression,
+  // Astro strips that whitespace and renders "Let'stalk" instead of "Let's talk".
+  compressHTML: false,
+
   vite: {
     plugins: [tailwindcss()],
   },
