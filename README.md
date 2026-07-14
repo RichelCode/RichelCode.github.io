@@ -4,7 +4,7 @@ Personal website & consulting site for **Richel Ohenewaa Attafuah**,
 AI/ML Engineer & Data Scientist. Built with [Astro](https://astro.build) +
 Tailwind CSS v4, deployed to GitHub Pages.
 
-## 🧞 Commands
+## Commands
 
 | Command           | Action                                       |
 | :---------------- | :------------------------------------------- |
@@ -13,7 +13,7 @@ Tailwind CSS v4, deployed to GitHub Pages.
 | `npm run build`   | Build the production site to `./dist/`       |
 | `npm run preview` | Preview the production build locally         |
 
-## ✏️ Where to edit things
+## Where to edit things
 
 All of my personal content lives in plain data files so it's easy to update:
 
@@ -33,7 +33,7 @@ All of my personal content lives in plain data files so it's easy to update:
 - **MailerLite** (newsletter) → `MAILERLITE_ACCOUNT_ID` + `MAILERLITE_FORM_ID` in `src/data/site.ts`
 - **Social links** → `socials` in `src/data/site.ts`
 
-## 🚀 Deployment
+## Deployment
 
 Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site
 and deploys it to GitHub Pages. In the repo settings, **Settings → Pages →
