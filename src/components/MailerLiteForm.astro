@@ -4,8 +4,9 @@ import { MAILERLITE_SUBSCRIBE_ACTION } from "../data/site";
 
 /* ════════════════════════════════════════════════════════════════════════
    MailerLiteForm, clean, on-brand subscribe form.
-   Submits to your MailerLite subscribe action via JSONP (works cross-origin,
-   no page reload, no MailerLite grey styling). Used for the newsletter and for
+   Submits to your MailerLite subscribe action via a CORS fetch (the endpoint
+   returns plain JSON with `access-control-allow-origin: *`), so there's no page
+   reload and no MailerLite grey styling. Used for the newsletter and for
    product-interest capture.
 
    Props:
@@ -68,7 +69,7 @@ const {
 </form>
 
 <script>
-  // JSONP submit to MailerLite, one handler for every .ml-form on the page.
+  // CORS fetch submit to MailerLite, one handler for every .ml-form on the page.
   document.querySelectorAll<HTMLFormElement>(".ml-form").forEach((form) => {
     const status = form.querySelector(".ml-status") as HTMLElement;
     const btn = form.querySelector("button[type=submit]") as HTMLButtonElement;
@@ -82,10 +83,10 @@ const {
       status.classList.remove("hidden");
     };
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = (form.querySelector("input[name=email]") as HTMLInputElement)?.value;
-      const name = (form.querySelector("input[name=name]") as HTMLInputElement)?.value ?? "";
+      const email = (form.querySelector("input[name=email]") as HTMLInputElement)?.value?.trim();
+      const name = (form.querySelector("input[name=name]") as HTMLInputElement)?.value?.trim() ?? "";
       if (!email) return;
 
       const original = label?.textContent ?? "Subscribe";
@@ -93,56 +94,37 @@ const {
       btn.style.opacity = "0.6";
       if (label) label.textContent = "Sending…";
 
-      // Build a JSONP request with a unique callback name.
-      const cb = "ml_cb_" + Math.random().toString(36).slice(2);
-      const params = new URLSearchParams();
-      params.set("fields[email]", email);
-      if (name) params.set("fields[name]", name);
-      params.set("fields[interest]", group);
-      params.set("ml-submit", "1");
-      params.set("callback", cb);
-      params.set("_", String(Date.now()));
+      // The MailerLite subscribe endpoint returns plain JSON and sends
+      // `access-control-allow-origin: *`, so a normal CORS fetch works and we
+      // can read the real success/error response (the old JSONP script-tag
+      // approach never fired because the reply isn't wrapped in a callback).
+      const body = new URLSearchParams();
+      body.set("fields[email]", email);
+      if (name) body.set("fields[name]", name);
+      body.set("fields[interest]", group);
+      body.set("ml-submit", "1");
+      body.set("anticsrf", "true");
 
-      const script = document.createElement("script");
-      let done = false;
-      const cleanup = () => {
-        delete (window as any)[cb];
-        script.remove();
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        if (label) label.textContent = original;
-      };
-
-      (window as any)[cb] = (res: any) => {
-        done = true;
-        cleanup();
-        if (res && (res.success || res.id || res.ID)) {
+      try {
+        const res = await fetch(action, {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: body.toString(),
+        });
+        const data = await res.json().catch(() => ({} as any));
+        if (res.ok && (data.success || data.id || data.ID)) {
           form.reset();
-          show("You're in! 🎉 Thanks, I'll be in touch.", true);
+          show("You're in! 🎉 Check your inbox to confirm.", true);
         } else {
           show("Hmm, that didn't go through. Please try again or email me.", false);
         }
-      };
-
-      script.onerror = () => {
-        if (!done) {
-          cleanup();
-          // JSONP can be blocked; treat optimistically but honestly.
-          show("Could not reach the server, please try again in a moment.", false);
-        }
-      };
-
-      script.src = `${action}?${params.toString()}`;
-      document.body.appendChild(script);
-
-      // Safety timeout
-      setTimeout(() => {
-        if (!done) {
-          cleanup();
-          show("Thanks! If you don't get a confirmation, please email me.", true);
-          form.reset();
-        }
-      }, 6000);
+      } catch (err) {
+        show("Could not reach the server, please try again in a moment.", false);
+      } finally {
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        if (label) label.textContent = original;
+      }
     });
   });
 </script>
