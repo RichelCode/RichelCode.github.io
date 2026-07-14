@@ -25,6 +25,7 @@ export const projects: Project[] = [
       "Forecasts electric-vehicle charging demand across both space and time, helping operators decide where and when charging capacity is needed before the queues form.",
     impact: "Impact: captured spatial + temporal demand patterns for smarter charger placement, [add metric: e.g. X% lower forecast error vs. baseline].",
     stack: ["Python", "PyTorch", "Time Series", "Geospatial"],
+    media: { type: "video", src: "/projects/spatio-temporal-ev-demo.mp4", alt: "Spatio-Temporal EV charging demand forecasting demo" },
     demoUrl: undefined, // TODO: YouTube/Loom demo link
     repoUrl: undefined, // TODO: GitHub repo
     featured: true,
