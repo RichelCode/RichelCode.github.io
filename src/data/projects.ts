@@ -23,7 +23,7 @@ export const projects: Project[] = [
     category: "Forecasting · Geospatial ML",
     description:
       "Forecasts electric-vehicle charging demand across both space and time, helping operators decide where and when charging capacity is needed before the queues form.",
-    impact: "Impact: captured spatial + temporal demand patterns for smarter charger placement, [add metric: e.g. X% lower forecast error vs. baseline].",
+    impact: "Impact: a spatio-temporal graph model that stays reliable when sensors fail, under 30% sensor outage a Random Forest baseline's forecast error grows about 2.8x faster than the graph model's, tested across 6 Caltrans PeMS District 3 stations at 12 to 72 hour horizons.",
     stack: ["Python", "PyTorch", "Time Series", "Geospatial"],
     media: { type: "video", src: "/projects/spatio-temporal-ev-demo.mp4", alt: "Spatio-Temporal EV charging demand forecasting demo", poster: "/projects/spatio-temporal-poster.jpg" },
     demoUrl: "https://richelcode.github.io/ev-charging-demand-demo/",
